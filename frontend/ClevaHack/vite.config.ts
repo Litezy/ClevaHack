@@ -8,4 +8,4 @@ export default defineConfig({
     react(),
     tailwindcss() as unknown as PluginOption,
   ],
-})
+});
