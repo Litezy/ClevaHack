@@ -1,8 +1,14 @@
 import Footer from '../../Components/Footer/Footer';
 import NavBar from '../../Components/NavBar/NavBar';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
+    const navigate = useNavigate();
+
+    const handleStarted = () => {
+        navigate('/studenttutor')
+    };
     return (
         <div>
             {/* Hero Section */}
@@ -21,11 +27,15 @@ const LandingPage = () => {
                         transition={{ duration: 1, delay: 0.3 }}>
                         Success Made Inevitable
                     </motion.h1>
+                    <div className=' mt-4'>
+                        <button onClick={handleStarted} className='btn btn-success w-40 h-12 text-white rounded-3xl'>Get Started</button>
+                    </div>
                 </div>
+
             </div>
 
             {/* Course Section */}
-            <section className="flex flex-col items-center p-8 mt-8">
+            <section className="flex flex-row items-center p-8 mt-8 space-x-20 items-center justify-center">
                 <motion.h1
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -33,6 +43,16 @@ const LandingPage = () => {
                     className="text-4xl md:text-5xl font-semibold text-center text-gray-800">
                     Browse Our Best Courses
                 </motion.h1>
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1 }}
+                    className=" flex flex-row items-center space-x-4 items-center justify-center">
+
+                    <img className='w-[200px] h-[200px]' src="/Group 1471.png" alt="calculus logo" />
+                    <img className='w-[200px] h-[200px]' src="/Group 1474.png" alt="Linear Algebra" />
+                    <img className='w-[200px] h-[200px]' src="/Group 1472.png" alt="cyber security" />
+                </motion.div>
             </section>
 
             {/* Why Choose Us Section */}
@@ -90,9 +110,22 @@ const LandingPage = () => {
                     </motion.div>
                 </div>
             </section>
-            <div className='flex justify-center'>
-                <button className='btn btn-success text-white rounded-3xl'>Get Started</button>
+            <div className='flex justify-center p-8 items-center mt-4'>
+                <button onClick={handleStarted} className='btn btn-success text-white rounded-3xl'>Get Started</button>
             </div>
+            {/* About Us Section */}
+            <div className="flex flex-col md:flex-row justify-center items-center min-h-screen px-6 md:px-20">
+                <img src="/Group 1491.png" alt="Student" className="max-w-sm w-full" />
+                <div className="flex flex-col justify-center p-6 md:ml-10 text-center md:text-left">
+                    <h1 className='font-semibold text-2xl md:text-3xl'>One Platform, Endless Learning</h1>
+                    <p className='font-medium text-lg mt-4'>
+                        Unlock your potential with a single platform that offers a vast selection of courses tailored to your interests and goals.
+                        Whether you’re looking to upskill, switch careers, or explore a new passion, we’ve got something for everyone.
+                        Learn at your own pace, anytime, anywhere. Start your journey today!
+                    </p>
+                </div>
+            </div>
+
 
             {/* Testimonials Section */}
             <section className="py-12 px-6 md:px-12 text-center">
@@ -137,7 +170,7 @@ const LandingPage = () => {
             </section>
             <div className='flex bg-[#D9D9D9] justify-around p-6 items-center mt-4'>
                 <h1 className='font-semibold text-2xl'>Ready To Get Started With</h1>
-                <button className='btn btn-success text-white rounded-3xl'>Get Started</button>
+                <button onClick={handleStarted} className='btn btn-success text-white rounded-3xl'>Get Started</button>
             </div>
 
             {/* Footer Section */}
