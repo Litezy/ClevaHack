@@ -6,7 +6,8 @@ const CookieName = 'synclearncookie'
 const api = `api/v1/`
 
 export const usersUrl = {
-    // this means the endpoint would be URL/api/v1/sign_up
+    // this means the endpoint would be URL/api/v1/sign_up 
+    // which should be https://educonnect.pinerockcreditunion.com/api/v1/sign_up
     sign_up: api + 'sign_up'
 }
 
