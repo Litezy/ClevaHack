@@ -28,7 +28,7 @@ exports.signUp = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
         const code = otpgenerator.generate(6, { specialChars: false, lowerCaseAlphabets: false })
-        const unique_id = otpgenerator.generate(6, { specialChars: false, lowerCaseAlphabets: false })
+        const unique_id = otpgenerator.generate(6, { specialChars: false, lowerCaseAlphabets: false, upperCaseAlphabets: false })
         const newUser = await User.create({ firstname, unique_id, lastname, role, gender, email, password: hashedPassword, code })
         await SendMail({
             code: code,
@@ -99,21 +99,18 @@ exports.VerifyEmail = async (req, res) => {
 
 exports.resendOtp = async (req, res) => {
     try {
-        const { email, tag } = req.body
-        if (!tag) return res.json({ status: 400, msg: "Tag missing" })
-        const tags = ['password', 'email']
-        if (!tags.includes(tag)) return res.json({ status: 400, msg: "Imvalid Tag Found" })
+        const { email } = req.body
         if (!email) return res.json({ status: 400, msg: 'User email is missing' })
         const FindEmail = await User.findOne({ where: { email } })
         if (FindEmail.verified === 'verified') return res.json({ status: 400, msg: 'Account already verified' })
         if (!FindEmail) return res.json({ status: 404, msg: 'Account not found' })
-        const otp = otpgenerator.generate(6, { specialChars: false, lowerCaseAlphabets: false })
+        const otp = otpgenerator.generate(6, { specialChars: false, lowerCaseAlphabets: false,upperCaseAlphabets:false })
         FindEmail.code = otp
         await FindEmail.save()
         await SendMail({
             code: otp,
             mailTo: email,
-            subject: tag === 'email' ? 'Account Verification Code' : 'OTP For Change Of Password',
+            subject: 'Account Verification Code',
             username: FindEmail.firstname,
             fullname: `${FindEmail.firstname} ${FindEmail.lastname}`,
             message: 'Copy and paste your account verification code below',

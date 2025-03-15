@@ -2,12 +2,12 @@ const { userMiddleware } = require('../auth/userAuth');
 const { signUp, singIn, VerifyEmail, resendOtp, findAccount, OtpForPasswordChange, VerifyPasswordChange, ChangeUserPassword, getUserProfile, UpdateProfile } = require('../controllers/userControllers');
 const router = require('express').Router();
 
-/**
+/** 
  * @swagger
  * /api/v1/signup:
  *   post:
  *     summary: Register a new user
- *     tags: [Users]
+ *     tags: [Non-Authenticated]
  *     requestBody:
  *       required: true
  *       content:
@@ -17,22 +17,33 @@ const router = require('express').Router();
  *             properties:
  *               firstname:
  *                 type: string
+ *                 description: User's first name
  *               lastname:
  *                 type: string
+ *                 description: User's last name
  *               phone:
  *                 type: string
+ *                 description: User's phone number
+ *               role:
+ *                 type: string
+ *                 description: User's role (e.g., student, teacher)
  *               email:
  *                 type: string
+ *                 description: User's email address
  *               gender:
  *                 type: string
+ *                 description: User's gender
  *               password:
  *                 type: string
+ *                 description: User's password
  *               confirm_password:
  *                 type: string
+ *                 description: Confirmation of the user's password
  *             required:
  *               - firstname
  *               - lastname
  *               - phone
+ *               - role
  *               - email
  *               - gender
  *               - password
@@ -45,11 +56,17 @@ const router = require('express').Router();
  *             schema:
  *               type: object
  *               properties:
- *                 status: { type: integer }
- *                 msg: { type: string }
- *                 data: { type: object }
+ *                 status:
+ *                   type: integer
+ *                 msg:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   description: The newly created user object
  *       400:
- *         description: Bad request (e.g., missing fields, email exists)
+ *         description: Bad request (e.g., missing fields, email/phone already exists, password mismatch, or invalid password)
+ *       500:
+ *         description: Internal server error
  */
 router.post('/signup', signUp);
 
@@ -58,7 +75,7 @@ router.post('/signup', signUp);
  * /api/v1/login:
  *   post:
  *     summary: Log in a user
- *     tags: [Users]
+ *     tags: [Non-Authenticated]
  *     requestBody:
  *       required: true
  *       content:
@@ -94,7 +111,7 @@ router.post('/login', singIn);
  * /api/v1/verify-email:
  *   post:
  *     summary: Verify user email with OTP
- *     tags: [Users]
+ *     tags: [Non-Authenticated]
  *     requestBody:
  *       required: true
  *       content:
@@ -104,11 +121,11 @@ router.post('/login', singIn);
  *             properties:
  *               email:
  *                 type: string
- *               otp:
+ *               code:
  *                 type: string
  *             required:
  *               - email
- *               - otp
+ *               - code
  *     responses:
  *       200:
  *         description: Email verified successfully
@@ -124,7 +141,7 @@ router.post('/verify-email', VerifyEmail);
  * /api/v1/find-account/{email}:
  *   get:
  *     summary: Check if an account exists by email
- *     tags: [Users]
+ *     tags: [Non-Authenticated]
  *     parameters:
  *       - in: path
  *         name: email
@@ -145,7 +162,7 @@ router.get('/find-account/:email', findAccount);
  * /api/v1/resend_otp:
  *   post:
  *     summary: Resend OTP for email verification
- *     tags: [Users]
+ *     tags: [Non-Authenticated]
  *     requestBody:
  *       required: true
  *       content:
@@ -170,7 +187,7 @@ router.post('/resend_otp', resendOtp);
  * /api/v1/otp_for_password:
  *   post:
  *     summary: Request OTP for password reset
- *     tags: [Users]
+ *     tags: [Non-Authenticated]
  *     requestBody:
  *       required: true
  *       content:
@@ -197,7 +214,7 @@ router.post('/otp_for_password', OtpForPasswordChange);
  * /api/v1/verify-password:
  *   post:
  *     summary: Verify OTP and change password
- *     tags: [Users]
+ *     tags: [Non-Authenticated]
  *     requestBody:
  *       required: true
  *       content:
@@ -231,7 +248,7 @@ router.post('/verify-password', VerifyPasswordChange);
  * /api/v1/resend_Otp_for_password:
  *   post:
  *     summary: Resend OTP for password reset (authenticated)
- *     tags: [Users]
+ *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -259,7 +276,7 @@ router.post('/resend_Otp_for_password', userMiddleware, OtpForPasswordChange);
  * /api/v1/verify-code:
  *   post:
  *     summary: Verify code for user change of password (authenticated)
- *     tags: [Users]
+ *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -291,7 +308,7 @@ router.post('/verify-code', userMiddleware, VerifyPasswordChange)
  * /api/v1/change-password:
  *   post:
  *     summary: Change user current password (authenticated)
- *     tags: [Users]
+ *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
