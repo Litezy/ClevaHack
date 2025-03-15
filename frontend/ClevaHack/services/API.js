@@ -62,7 +62,7 @@ const signupUser = async ()=>{
         const res = PostApi(Apis.user.sign_up,formdata)
         if(res.status !== 200) throw new Error //use ur customized error message package to extract the specific message by saying ` return ErroAlert(res.msg) so u will know the error
         
-        //here the sign up is successfully, then u take them back to login page to actually login
+        //here the sign up is successful, then u take them back to login page to actually login
     } catch (error) {
         
     }finally{
