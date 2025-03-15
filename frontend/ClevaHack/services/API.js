@@ -3,10 +3,10 @@ import axios from 'axios'
 const URL = import.meta.env.LIVE_SERVER_URL
 const CookieName = 'synclearncookie'
 
-const api = `v1/`
+const api = `api/v1/`
 
 export const usersUrl = {
-    // this means the endpoint would be URL/v1/sign_up
+    // this means the endpoint would be URL/api/v1/sign_up
     sign_up: api + 'sign_up'
 }
 
