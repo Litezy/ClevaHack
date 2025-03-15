@@ -64,7 +64,7 @@ const signupUser = async ()=>{
         
         //here the sign up is successful, then u take them back to login page to actually login
     } catch (error) {
-        
+        //catch the error and handle it
     }finally{
         //loading false
     }
